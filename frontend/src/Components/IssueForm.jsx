@@ -100,11 +100,11 @@ export default function IssueForm() {
   ];
 
   return (
-    <div className="bg-gradient-to-br from-pink-50 to-pink-100 min-h-screen flex items-center justify-center p-4">
-      <div className="mt-16 bg-white rounded-xl shadow-lg p-8 w-full max-w-2xl border border-blue-100">
+    <div className="bg-gradient-to-br from-teal-50 to-teal-100 min-h-screen flex items-center justify-center p-4">
+      <div className="mt-16 bg-white rounded-xl shadow-lg p-8 w-full max-w-2xl border border-teal-100">
         <div className="flex items-center gap-2 mb-6">
           <AlertCircle className="text-red-500" size={24} />
-          <h2 className="text-2xl font-semibold text-pink-800">
+          <h2 className="text-2xl font-semibold text-teal-800">
             {mode === "update" ? "Update Issue" : "Report an Issue"}
           </h2>
         </div>
@@ -113,7 +113,7 @@ export default function IssueForm() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Title Field */}
           <div>
-            <label className="text-sm font-medium text-pink-700 block mb-2">
+            <label className="text-sm font-medium text-teal-700 block mb-2">
               Issue Title
             </label>
             <div className="relative">
@@ -136,11 +136,11 @@ export default function IssueForm() {
                   },
                 })}
                 className={`w-full px-4 py-3 rounded-lg border ${
-                  errors.title ? "border-red-300 bg-red-50" : "border-pink-200"
-                } focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-200`}
+                  errors.title ? "border-red-300 bg-red-50" : "border-teal-200"
+                } focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-200`}
               />
               <FileText
-                className="absolute right-3 top-3 text-pink-400"
+                className="absolute right-3 top-3 text-teal-400"
                 size={20}
               />
             </div>
@@ -154,7 +154,7 @@ export default function IssueForm() {
 
           {/* Description Field */}
           <div>
-            <label className="text-sm font-medium text-pink-700 block mb-2">
+            <label className="text-sm font-medium text-teal-700 block mb-2">
               Description
             </label>
             <textarea
@@ -174,8 +174,8 @@ export default function IssueForm() {
               className={`w-full px-4 py-3 rounded-lg border ${
                 errors.description
                   ? "border-red-300 bg-red-50"
-                  : "border-pink-200"
-              } focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-200`}
+                  : "border-teal-200"
+              } focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-200`}
             />
             {errors.description && (
               <p className="mt-1 text-red-500 text-sm flex items-center">
@@ -187,7 +187,7 @@ export default function IssueForm() {
 
           {/* Category Field */}
           <div>
-            <label className="text-sm font-medium text-pink-700 block mb-2">
+            <label className="text-sm font-medium text-teal-700 block mb-2">
               Category
             </label>
             <div className="relative">
@@ -195,7 +195,7 @@ export default function IssueForm() {
                 {...register("category", {
                   required: "Please select a category",
                 })}
-                className="w-full px-4 py-3 rounded-lg border border-pink-200 appearance-none focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-200"
+                className="w-full px-4 py-3 rounded-lg border border-teal-200 appearance-none focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-200"
               >
                 <option value="">Select a category</option>
                 {categories.map((cat) => (
@@ -205,7 +205,7 @@ export default function IssueForm() {
                 ))}
               </select>
               <Tag
-                className="absolute right-3 top-3 text-pink-400 pointer-events-none"
+                className="absolute right-3 top-3 text-teal-400 pointer-events-none"
                 size={20}
               />
             </div>
@@ -219,7 +219,7 @@ export default function IssueForm() {
 
           {/* Location Field */}
           <div>
-            <label className="text-sm font-medium text-pink-700 block mb-2">
+            <label className="text-sm font-medium text-teal-700 block mb-2">
               Location
             </label>
             <div className="relative">
@@ -236,11 +236,11 @@ export default function IssueForm() {
                 className={`w-full px-4 py-3 rounded-lg border ${
                   errors.location
                     ? "border-red-300 bg-red-50"
-                    : "border-pink-200"
-                } focus:outline-none focus:ring-2 focus:ring-pink-500 transition duration-200`}
+                    : "border-teal-200"
+                } focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-200`}
               />
               <MapPin
-                className="absolute right-3 top-3 text-pink-400"
+                className="absolute right-3 top-3 text-teal-400"
                 size={20}
               />
             </div>
@@ -254,12 +254,12 @@ export default function IssueForm() {
 
           {/* File Upload Field */}
           <div>
-            <label className="text-sm font-medium text-pink-700 block mb-2">
+            <label className="text-sm font-medium text-teal-700 block mb-2">
               Attachment
             </label>
             <div
               className={`border-2 border-dashed rounded-lg p-4 text-center ${
-                fileName ? "border-blue-300 bg-blue-50" : "border-pink-200"
+                fileName ? "border-teal-300 bg-teal-50" : "border-teal-200"
               }`}
             >
               <input
@@ -280,17 +280,17 @@ export default function IssueForm() {
               >
                 <FileUp
                   className={`${
-                    fileName ? "text-pink-500" : "text-pink-400"
+                    fileName ? "text-teal-500" : "text-teal-400"
                   } mb-2`}
                   size={24}
                 />
                 {fileName ? (
-                  <span className="text-pink-600 text-sm font-medium">
+                  <span className="text-teal-600 text-sm font-medium">
                     {fileName}
                     {mode === "update" && " (Current file)"}
                   </span>
                 ) : (
-                  <span className="text-pink-500 text-sm">
+                  <span className="text-teal-500 text-sm">
                     Drag and drop files or click to browse
                   </span>
                 )}
@@ -316,7 +316,7 @@ export default function IssueForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-2/3 bg-pink-500 hover:bg-pink-700 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-70"
+              className="w-2/3 bg-teal-500 hover:bg-teal-700 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-70"
             >
               {isSubmitting ? (
                 <>Processing...</>

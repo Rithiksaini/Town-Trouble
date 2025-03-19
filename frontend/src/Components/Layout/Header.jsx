@@ -54,8 +54,8 @@ function Header() {
         <div className="flex items-center justify-between h-16">
           <div className="flex-shrink-0">
             <Link to="/" className="flex items-center">
-              <Gem className="text-pink-700 me-2" size={30} />
-              <span className="text-2xl font-bold bg-gradient-to-r from-pink-600 to-pink-800 bg-clip-text text-transparent">
+              <Gem className="text-teal-700 me-2" size={30} />
+              <span className="text-2xl font-bold bg-gradient-to-r from-teal-600 to-teal-800 bg-clip-text text-transparent">
                 TOWN TROUBLE
               </span>
             </Link>
@@ -66,17 +66,17 @@ function Header() {
             <div className="ml-7 flex items-baseline space-x-4">
               <Link
                 to="/"
-                className={`px-3 py-2 text-sm font-medium hover:text-pink-800 ${
-                  location.pathname === "/" ? "text-pink-700" : "text-gray-600"
+                className={`px-3 py-2 text-sm font-medium hover:text-teal-800 ${
+                  location.pathname === "/" ? "text-teal-700" : "text-gray-600"
                 }`}
               >
                 Home
               </Link>
               <Link
                 to="/about"
-                className={`px-3 py-2 text-sm font-medium hover:text-pink-800 ${
+                className={`px-3 py-2 text-sm font-medium hover:text-teal-800 ${
                   location.pathname === "/about"
-                    ? "text-pink-700"
+                    ? "text-teal-700"
                     : "text-gray-600"
                 }`}
               >
@@ -84,9 +84,9 @@ function Header() {
               </Link>
               <Link
                 to="/contact"
-                className={`px-3 py-2 text-sm font-medium hover:text-pink-800 ${
+                className={`px-3 py-2 text-sm font-medium hover:text-teal-800 ${
                   location.pathname === "/contact"
-                    ? "text-pink-700"
+                    ? "text-teal-700"
                     : "text-gray-600"
                 }`}
               >
@@ -96,9 +96,9 @@ function Header() {
               {token && (
                 <Link
                   to="/profile"
-                  className={`px-3 py-2 text-sm font-medium hover:text-pink-800 ${
+                  className={`px-3 py-2 text-sm font-medium hover:text-teal-800 ${
                     location.pathname === "/profile"
-                      ? "text-pink-700"
+                      ? "text-teal-700"
                       : "text-gray-600"
                   }`}
                 >
@@ -112,7 +112,7 @@ function Header() {
             {!token ? (
               <Link
                 to="/login"
-                className="ml-4 px-4 py-2 text-sm font-medium text-pink-600 bg-white border border-pink-200 rounded-lg shadow-sm hover:bg-pink-600 hover:text-white transition-colors duration-300"
+                className="ml-4 px-4 py-2 text-sm font-medium text-teal-600 bg-white border border-teal-200 rounded-lg shadow-sm hover:bg-teal-600 hover:text-white transition-colors duration-300"
               >
                 Login
               </Link>
@@ -121,10 +121,10 @@ function Header() {
                 onClick={logOut}
                 disabled={isLoggingOut}
                 title="logout"
-                className={`ml-4 px-4 py-2 text-sm font-medium text-pink-600 bg-transparent border border-pink-200 rounded-lg shadow-sm transition-colors duration-300 ${
+                className={`ml-4 px-4 py-2 text-sm font-medium text-teal-600 bg-transparent border border-teal-200 rounded-lg shadow-sm transition-colors duration-300 ${
                   isLoggingOut
-                    ? "bg-pink-50 cursor-not-allowed"
-                    : "hover:bg-gradient-to-r from-pink-100 to-yellow-100 hover:text-pink-500"
+                    ? "bg-teal-50 cursor-not-allowed"
+                    : "hover:bg-gradient-to-r from-teal-100 to-yellow-100 hover:text-teal-500"
                 }`}
               >
                 {isLoggingOut ? (
@@ -139,7 +139,7 @@ function Header() {
             <div className="md:hidden ml-3">
               <button
                 type="button"
-                className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-pink-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-pink-500"
+                className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-teal-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-teal-500"
                 aria-controls="mobile-menu"
                 aria-expanded={isMobileMenuOpen ? "true" : "false"}
                 onClick={toggleMobileMenu}
@@ -174,16 +174,16 @@ function Header() {
           <Link
             to="/"
             className={`block px-3 py-2 text-base font-medium hover:bg-gray-100 ${
-              location.pathname === "/" ? "text-pink-700" : "text-gray-700"
-            } hover:text-pink-800 rounded-md`}
+              location.pathname === "/" ? "text-teal-700" : "text-gray-700"
+            } hover:text-teal-800 rounded-md`}
           >
             Home
           </Link>
           <Link
             to="/about"
             className={`block px-3 py-2 text-base font-medium hover:bg-gray-100 ${
-              location.pathname === "/about" ? "text-pink-700" : "text-gray-700"
-            } hover:text-pink-800 rounded-md`}
+              location.pathname === "/about" ? "text-teal-700" : "text-gray-700"
+            } hover:text-teal-800 rounded-md`}
           >
             About
           </Link>
@@ -191,9 +191,9 @@ function Header() {
             to="/contact"
             className={`block px-3 py-2 text-base font-medium hover:bg-gray-100 ${
               location.pathname === "/contact"
-                ? "text-pink-700"
+                ? "text-teal-700"
                 : "text-gray-700"
-            } hover:text-pink-800 rounded-md`}
+            } hover:text-teal-800 rounded-md`}
           >
             Contact
           </Link>
@@ -204,9 +204,9 @@ function Header() {
               to="/profile"
               className={`block px-3 py-2 text-base font-medium hover:bg-gray-100 ${
                 location.pathname === "/profile"
-                  ? "text-pink-700"
+                  ? "text-teal-700"
                   : "text-gray-700"
-              } hover:text-pink-800 rounded-md`}
+              } hover:text-teal-800 rounded-md`}
             >
               Profile
             </Link>

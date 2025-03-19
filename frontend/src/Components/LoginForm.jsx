@@ -51,11 +51,11 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-r from-pink-100 to-slate-100 flex items-center justify-center p-4 font-sans">
+    <div className="min-h-screen w-full bg-gradient-to-r from-teal-100 to-slate-100 flex items-center justify-center p-4 font-sans">
       <Toaster position="top-center" />
 
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden">
-        <div className="bg-gradient-to-r from-pink-400 to-pink-600 py-8 px-6 text-center">
+        <div className="bg-gradient-to-r from-teal-400 to-teal-600 py-8 px-6 text-center">
           <h2 className="text-white text-2xl font-bold">Login</h2>
           <p className="text-white text-lg mt-2 opacity-80">
             Login to your account
@@ -81,7 +81,7 @@ export default function LoginForm() {
                 placeholder="Email address"
                 className={`w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border ${
                   errors.email ? "border-red-300" : "border-slate-200"
-                } focus:outline-none focus:ring-1 focus:ring-pink-500 focus:bg-white transition`}
+                } focus:outline-none focus:ring-1 focus:ring-teal-500 focus:bg-white transition`}
               />
             </div>
             {errors.email && (
@@ -112,7 +112,7 @@ export default function LoginForm() {
                 placeholder="Password"
                 className={`w-full pl-10 pr-10 py-2.5 rounded-lg bg-slate-50 border ${
                   errors.password ? "border-red-300" : "border-slate-200"
-                } focus:outline-none focus:ring-1 focus:ring-pink-500 focus:bg-white transition`}
+                } focus:outline-none focus:ring-1 focus:ring-teal-500 focus:bg-white transition`}
               />
               <button
                 type="button"
@@ -133,8 +133,8 @@ export default function LoginForm() {
             <button
               disabled={login}
               type="submit"
-              className={`w-full bg-gradient-to-r from-pink-400 to-pink-600 hover:from-pink-500 hover:to-pink-700 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition duration-200 ${
-                login ? "bg-pink-50 cursor-not-allowed" : ""
+              className={`w-full bg-gradient-to-r from-teal-400 to-teal-600 hover:from-teal-500 hover:to-teal-700 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition duration-200 ${
+                login ? "bg-teal-50 cursor-not-allowed" : ""
               }`}
             >
               {login ? (
@@ -155,7 +155,7 @@ export default function LoginForm() {
             Not an account?{" "}
             <Link
               to="/registration"
-              className="text-blue-600 hover:text-blue-800 font-medium"
+              className="text-teal-600 hover:text-teal-800 font-medium"
             >
               Signup
             </Link>

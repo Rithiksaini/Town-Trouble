@@ -35,7 +35,6 @@ export default function Registration() {
         data
       );
       if (res.data?.success) {
-        
         try {
           const loginRes = await axios.post(
             "http://localhost:8000/user/login",
@@ -48,7 +47,7 @@ export default function Registration() {
               success: "Account created successfully",
               error: "Something went wrong",
             });
-               
+
             sessionStorage.setItem(
               "userData",
               JSON.stringify(loginRes.data.data)
@@ -57,7 +56,9 @@ export default function Registration() {
             localStorage.setItem("token", loginRes.data.token);
 
             setTimeout(() => {
-              navigate(loginRes.data.data.userType === 1 ? "/admin/dashboard" : "/");
+              navigate(
+                loginRes.data.data.userType === 1 ? "/admin/dashboard" : "/"
+              );
             }, 2000);
           } else {
             toast.error(loginRes.data.message || "Login failed");
@@ -74,13 +75,13 @@ export default function Registration() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-r from-pink-100 to-slate-100 flex items-center justify-center p-4 font-sans">
+    <div className="min-h-screen w-full bg-gradient-to-r from-teal-100 to-slate-100 flex items-center justify-center p-4 font-sans">
       <Toaster position="top-right" />
 
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden">
-        <div className="bg-gradient-to-r from-pink-400 to-pink-600 py-8 px-6 text-center">
+        <div className="bg-gradient-to-r from-teal-400 to-teal-600 py-8 px-6 text-center">
           <h2 className="text-white text-2xl font-bold">Sign Up</h2>
-          <p className="text-blue-100 text-sm mt-2 opacity-80">
+          <p className="text-teal-100 text-sm mt-2 opacity-80">
             Create your account in seconds
           </p>
         </div>
@@ -103,7 +104,7 @@ export default function Registration() {
                 placeholder="Username"
                 className={`w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border ${
                   errors.name ? "border-red-300" : "border-slate-200"
-                } focus:outline-none focus:ring-1 focus:ring-pink-500 focus:bg-white transition`}
+                } focus:outline-none focus:ring-1 focus:ring-teal-500 focus:bg-white transition`}
               />
             </div>
             {errors.name && (
@@ -132,7 +133,7 @@ export default function Registration() {
                 placeholder="Email address"
                 className={`w-full pl-10 pr-4 py-2.5 rounded-lg bg-slate-50 border ${
                   errors.email ? "border-red-600" : "border-slate-200"
-                } focus:outline-none focus:ring-1 focus:ring-pink-500 focus:bg-white transition`}
+                } focus:outline-none focus:ring-1 focus:ring-teal-500 focus:bg-white transition`}
               />
             </div>
             {errors.email && (
@@ -164,7 +165,7 @@ export default function Registration() {
                 placeholder="Password"
                 className={`w-full pl-10 pr-10 py-2.5 rounded-lg bg-slate-50 border ${
                   errors.password ? "border-red-300" : "border-slate-200"
-                } focus:outline-none focus:ring-1 focus:ring-pink-500 focus:bg-white transition`}
+                } focus:outline-none focus:ring-1 focus:ring-teal-500 focus:bg-white transition`}
               />
               <button
                 type="button"
@@ -198,7 +199,7 @@ export default function Registration() {
                 placeholder="Confirm password"
                 className={`w-full pl-10 pr-10 py-2.5 rounded-lg bg-slate-50 border ${
                   errors.confirmPassword ? "border-red-300" : "border-slate-200"
-                } focus:outline-none focus:ring-1 focus:ring-pink-500 focus:bg-white transition`}
+                } focus:outline-none focus:ring-1 focus:ring-teal-500 focus:bg-white transition`}
               />
               <button
                 type="button"
@@ -219,7 +220,7 @@ export default function Registration() {
           <button
             type="submit"
             disabled={registration}
-            className="w-full bg-pink-500 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center gap-2"
+            className="w-full bg-teal-500 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center gap-2"
           >
             {registration ? (
               <Loader2 className="animate-spin" size={18} />
@@ -235,7 +236,7 @@ export default function Registration() {
             Already have an account?{" "}
             <Link
               to="/login"
-              className="text-blue-600 hover:text-blue-800 font-medium"
+              className="text-teal-600 hover:text-teal-800 font-medium"
             >
               Log in
             </Link>

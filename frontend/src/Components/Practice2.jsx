@@ -41,7 +41,7 @@ function App() {
               </h1>
               <div className=" p-2 my-2 flex flex-col gap-3  w-full  ">
                 {todolists.map(({ task, id }, i) => (
-                  <div className=" rounded-md bg-black opacity-80 text-white px-5 flex items-center uppercase justify-between shadow-2xl shadow-blue-200   h-10 text-2xl">
+                  <div className=" rounded-md bg-black opacity-80 text-white px-5 flex items-center uppercase justify-between shadow-2xl shadow-teal-200   h-10 text-2xl">
                     <span className="p-2 capitalize text-md ">
                       {i + 1}. {task}
                     </span>
@@ -53,7 +53,7 @@ function App() {
               </div>
               <div className="absolute bottom-0 w-full p-2 flex gap-2 justify-between">
                 <input
-                  className="flex-1 p-2 rounded-lg shadow-2xl shadow-grey-200 focus:outline-none ring-offset-2 ring-blue-100 focus:ring-2 focus:ring-blue-800"
+                  className="flex-1 p-2 rounded-lg shadow-2xl shadow-grey-200 focus:outline-none ring-offset-2 ring-teal-100 focus:ring-2 focus:ring-teal-800"
                   type="text"
                   name="todolist"
                   placeholder="Enter your task"
@@ -78,5 +78,3 @@ function App() {
   );
 }
 export default App;
-
-

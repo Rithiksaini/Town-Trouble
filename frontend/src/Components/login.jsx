@@ -49,9 +49,9 @@ const App = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-purple-50 p-4 flex items-center justify-center">
       <div className="w-full max-w-md bg-white/80 backdrop-blur-sm rounded-lg shadow-lg p-6">
-        <h1 className="text-2xl font-bold text-center mb-6 bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text">
+        <h1 className="text-2xl font-bold text-center mb-6 bg-gradient-to-r from-teal-600 to-purple-600 text-transparent bg-clip-text">
           Todo List
         </h1>
 
@@ -67,7 +67,7 @@ const App = () => {
           />
           <button
             onClick={addTask}
-            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg 
+            className="px-4 py-2 bg-gradient-to-r from-teal-500 to-purple-500 text-white rounded-lg 
                      hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 
                      transition-all duration-300 hover:shadow-lg transform hover:scale-105 active:scale-95"
           >

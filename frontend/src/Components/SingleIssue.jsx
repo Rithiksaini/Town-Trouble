@@ -99,9 +99,9 @@ export default function SingleIssue() {
   };
 
   return (
-    <div className="min-h-screen font-serif bg-pink-100 py-8">
+    <div className="min-h-screen font-serif bg-teal-100 py-8">
       <div className="container mx-auto pt-16 px-4 sm:px-6 lg:px-8">
-        <h2 className="text-2xl font-bold mb-6 text-center text-pink-800">
+        <h2 className="text-2xl font-bold mb-6 text-center text-teal-800">
           Issue Details
         </h2>
 
@@ -152,8 +152,8 @@ export default function SingleIssue() {
                       onClick={handleUpvote}
                       className={`p-3 rounded-full ${
                         hasUpvoted
-                          ? "bg-pink-500 text-white cursor-not-allowed"
-                          : "bg-pink-100 text-pink-600 hover:bg-pink-200"
+                          ? "bg-teal-500 text-white cursor-not-allowed"
+                          : "bg-teal-100 text-teal-600 hover:bg-teal-200"
                       } transition-colors duration-200`}
                       disabled={hasUpvoted}
                       title={
@@ -187,7 +187,7 @@ export default function SingleIssue() {
                 </h2>
                 <div className="space-y-3">
                   <div className="flex items-start">
-                    <MapPin className="text-pink-500 mr-3 mt-1" size={18} />
+                    <MapPin className="text-teal-500 mr-3 mt-1" size={18} />
                     <div>
                       <span className="font-medium text-gray-700 block">
                         Location:
@@ -199,7 +199,7 @@ export default function SingleIssue() {
                   </div>
 
                   <div className="flex items-start">
-                    <Tag className="text-pink-500 mr-3 mt-1" size={18} />
+                    <Tag className="text-teal-500 mr-3 mt-1" size={18} />
                     <div>
                       <span className="font-medium text-gray-700 block">
                         Category:
@@ -211,7 +211,7 @@ export default function SingleIssue() {
                   </div>
 
                   <div className="flex items-start">
-                    <User className="text-pink-500 mr-3 mt-1" size={18} />
+                    <User className="text-teal-500 mr-3 mt-1" size={18} />
                     <div>
                       <span className="font-medium text-gray-700 block">
                         Reported by:
@@ -236,7 +236,7 @@ export default function SingleIssue() {
                           ? "bg-green-100 text-green-800"
                           : singleIssue.action === "In Progress"
                           ? "bg-yellow-100 text-yellow-800"
-                          : "bg-blue-100 text-blue-800"
+                          : "bg-teal-100 text-teal-800"
                       }`}
                     >
                       {singleIssue.action}

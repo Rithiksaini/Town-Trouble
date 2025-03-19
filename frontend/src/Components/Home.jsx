@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ArrowRight, MapPin, CheckCircle } from "lucide-react";
 import {
-  MapPin,
   User,
   ChevronRight,
   Plus,
   Clock,
-  CheckCircle,
   XCircle,
   AlertCircle,
   Star,
 } from "lucide-react";
+import HeroSection from "./Home/HeroSection";
 
 export default function Home() {
   // State to store issues and loading status
@@ -102,7 +102,7 @@ export default function Home() {
     } else if (status === "in progress" || status === "inprogress") {
       return {
         icon: <AlertCircle size={16} />,
-        color: "bg-blue-100 text-blue-700",
+        color: "bg-teal-100 text-teal-700",
         label: "In Progress",
       };
     } else if (status === "completed" || status === "resolved") {
@@ -177,56 +177,15 @@ export default function Home() {
     }
   };
   return (
-    <div className="min-h-screen font-serif bg-pink-100">
+    <div className="min-h-screen font-serif bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Hero Section with Simple Animation */}
-      <div className=" container mt-10 mx-auto px-4 pt-12 text-center">
-        <h1 className="text-[3rem]  font-bold text-pink-800 mb-4 transition-all duration-500">
-          Welcome to <span className="font-black">Town Trouble</span>
-        </h1>
-        <h2
-          className="text-xl text-gray-700 mb-12"
-          style={{
-            animation: "slideUp 1s ease-out 0.3s both",
-          }}
-        >
-          We are Ready to Make Our City Smart
-        </h2>
 
-        {/* Call to Action Buttons with Hover Effect */}
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 my-12">
-          <button
-            className="bg-white rounded-lg px-6 py-3 font-semibold text-gray-800 shadow-lg transition-all duration-300 hover:bg-pink-600 hover:text-white transform hover:-translate-y-1"
-            style={{ animation: "fadeIn 1s ease-out 0.6s both" }}
-            onClick={() => {
-              report();
-            }}
-          >
-            <Link>
-              <div className="flex items-center gap-2">
-                <Plus size={18} />
-                <span>Report New Issue</span>
-              </div>
-            </Link>
-          </button>
-
-          <Link
-            to="/issues"
-            className="bg-white rounded-lg px-6 py-3 font-semibold text-gray-800 shadow-lg transition-all duration-300 hover:bg-pink-600 hover:text-white transform hover:-translate-y-1"
-            style={{ animation: "fadeIn 1s ease-out 0.8s both" }}
-          >
-            <div className="flex items-center gap-2">
-              <MapPin size={18} />
-              <span>View Issues</span>
-            </div>
-          </Link>
-        </div>
-      </div>
-
+      <HeroSection />
       {/* How Town Trouble Works Section with Active Step Highlighting */}
       <div className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-pink-800 mb-4">
+            <h2 className="text-3xl font-bold text-teal-800 mb-4">
               How Town Trouble Works
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
@@ -240,7 +199,7 @@ export default function Home() {
                 key={step.id}
                 className={`w-full md:w-1/4 bg-white rounded-xl shadow-lg p-6 flex flex-col transition-all duration-500 ${
                   activeStep === step.id
-                    ? "transform -translate-y-2 border-2 border-pink-600"
+                    ? "transform -translate-y-2 border-2 border-teal-600"
                     : ""
                 }`}
               >
@@ -248,8 +207,8 @@ export default function Home() {
                   <div
                     className={`w-16 h-16 rounded-full ${
                       activeStep === step.id
-                        ? "bg-pink-600 text-white"
-                        : "bg-pink-200 text-pink-800"
+                        ? "bg-teal-600 text-white"
+                        : "bg-teal-200 text-teal-800"
                     } flex items-center justify-center text-xl font-bold transition-all duration-300`}
                   >
                     {step.id}
@@ -268,7 +227,7 @@ export default function Home() {
           {/* Simple Progress Bar */}
           <div className="mt-8 max-w-md mx-auto bg-gray-200 h-2 rounded-full overflow-hidden">
             <div
-              className="bg-pink-600 h-full transition-all duration-300"
+              className="bg-teal-600 h-full transition-all duration-300"
               style={{ width: `${activeStep * 25}%` }}
             ></div>
           </div>
@@ -278,13 +237,13 @@ export default function Home() {
       {/* Issues Section with Fade-in Animation */}
       <div className="py-12">
         <div className="container mx-auto px-4">
-          <h3 className="text-2xl text-pink-700  font-bold text-center mb-8">
+          <h3 className="text-2xl text-teal-700  font-bold text-center mb-8">
             Recent Issues
           </h3>
 
           {loading ? (
             <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-pink-600"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-teal-600"></div>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -340,7 +299,7 @@ export default function Home() {
                             className={
                               issue.action?.toLowerCase() === "rejected"
                                 ? "h-full bg-red-500 transition-all duration-1000"
-                                : "h-full bg-pink-600 transition-all duration-1000"
+                                : "h-full bg-teal-600 transition-all duration-1000"
                             }
                             style={{
                               width:
@@ -369,7 +328,7 @@ export default function Home() {
 
                           <Link
                             to={`/singleissue/${issue._id}`}
-                            className="flex items-center text-xs font-medium text-pink-600 hover:text-pink-800 transition-colors"
+                            className="flex items-center text-xs font-medium text-teal-600 hover:text-teal-800 transition-colors"
                           >
                             <span>View Details</span>
                             <ChevronRight
@@ -384,7 +343,7 @@ export default function Home() {
                 })
               ) : (
                 <div className="col-span-full flex flex-col items-center justify-center bg-white rounded-xl p-8 shadow">
-                  <AlertCircle size={48} className="text-pink-600 mb-4" />
+                  <AlertCircle size={48} className="text-teal-600 mb-4" />
                   <h4 className="text-xl font-medium text-gray-800 mb-2">
                     No Issues Found
                   </h4>
@@ -393,7 +352,7 @@ export default function Home() {
                   </p>
                   <Link
                     to="/issueform"
-                    className="px-4 py-2 bg-pink-600 text-white rounded-lg shadow-lg hover:bg-pink-700 transition-colors duration-300"
+                    className="px-4 py-2 bg-teal-600 text-white rounded-lg shadow-lg hover:bg-teal-700 transition-colors duration-300"
                   >
                     Report Issue
                   </Link>
@@ -407,7 +366,7 @@ export default function Home() {
             <div className="flex justify-center mt-8">
               <Link
                 to="/issues"
-                className="bg-white px-8 py-3 font-medium text-pink-600 rounded-lg shadow-lg hover:bg-pink-600 hover:text-white transition-all duration-300 transform hover:-translate-y-1"
+                className="bg-white px-8 py-3 font-medium text-teal-600 rounded-lg shadow-lg hover:bg-teal-600 hover:text-white transition-all duration-300 transform hover:-translate-y-1"
               >
                 View All Issues
               </Link>
@@ -420,7 +379,7 @@ export default function Home() {
       <div className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-pink-800 mb-4">
+            <h2 className="text-3xl font-bold text-teal-800 mb-4">
               Success Stories
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
@@ -477,7 +436,7 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link
               to="/"
-              className="bg-white px-8 py-3 font-medium text-pink-600 rounded-lg shadow-lg hover:bg-pink-600 hover:text-white transition-all duration-300 transform hover:-translate-y-1 inline-block"
+              className="bg-white px-8 py-3 font-medium text-teal-600 rounded-lg shadow-lg hover:bg-teal-600 hover:text-white transition-all duration-300 transform hover:-translate-y-1 inline-block"
             >
               View All Success Stories
             </Link>

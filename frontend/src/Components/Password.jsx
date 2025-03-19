@@ -35,7 +35,7 @@ export default function Password({ closeModal }) {
 
   return (
     <div className="p-4 bg-white font-serif dark:bg-gray-800 rounded-lg shadow max-w-sm w-full">
-      <h2 className="text-lg font-medium mb-4 text-pink-800 dark:text-white">
+      <h2 className="text-lg font-medium mb-4 text-teal-800 dark:text-white">
         Change Password
       </h2>
 
@@ -49,8 +49,8 @@ export default function Password({ closeModal }) {
           <div className="relative mt-1">
             <input
               type={showPassword ? "text" : "password"}
-              className="w-full  border-pink-400 bg-gray-100   p-2 focus:outline-none focus:ring-2
-             focus:ring-pink-300 border rounded"
+              className="w-full  border-teal-400 bg-gray-100   p-2 focus:outline-none focus:ring-2
+             focus:ring-teal-300 border rounded"
               value={oldPassword}
               onChange={(e) => setOldPassword(e.target.value)}
             />
@@ -70,8 +70,8 @@ export default function Password({ closeModal }) {
           <div className="relative mt-1">
             <input
               type={newsPassword ? "text" : "password"}
-              className="w-full  border-pink-400 bg-gray-100   p-2 focus:outline-none focus:ring-2
-             focus:ring-pink-300 border rounded"
+              className="w-full  border-teal-400 bg-gray-100   p-2 focus:outline-none focus:ring-2
+             focus:ring-teal-300 border rounded"
               value={oldPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
@@ -90,9 +90,9 @@ export default function Password({ closeModal }) {
           </label>
           <div className="relative mt-1">
             <input
-              type={confirmsPassword ?  "text":"password"}
-              className={`w-full border-pink-400 bg-gray-100    p-2 border focus:outline-none focus:ring-2
-             focus:ring-pink-300 rounded mt-1 ${
+              type={confirmsPassword ? "text" : "password"}
+              className={`w-full border-teal-400 bg-gray-100    p-2 border focus:outline-none focus:ring-2
+             focus:ring-teal-300 rounded mt-1 ${
                confirmPassword && newPassword !== confirmPassword
                  ? "border-red-500"
                  : ""
@@ -100,7 +100,7 @@ export default function Password({ closeModal }) {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
-            
+
             <button
               className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400"
               onClick={() => setConfirmsPassword(!confirmsPassword)}
@@ -120,7 +120,7 @@ export default function Password({ closeModal }) {
           <button
             onClick={handleSubmit}
             disabled={!isFormValid || loading}
-            className="px-3 py-1.5 bg-pink-500 text-white rounded disabled:opacity-50"
+            className="px-3 py-1.5 bg-teal-500 text-white rounded disabled:opacity-50"
           >
             {loading ? "Updating..." : "Update"}
           </button>
@@ -129,4 +129,3 @@ export default function Password({ closeModal }) {
     </div>
   );
 }
-

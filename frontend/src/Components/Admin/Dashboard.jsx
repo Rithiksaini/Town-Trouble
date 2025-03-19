@@ -109,8 +109,8 @@ const AdminDashboard = () => {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-50">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-pink-500 mx-auto"></div>
-          <p className="mt-4 text-pink-700 font-medium">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-teal-500 mx-auto"></div>
+          <p className="mt-4 text-teal-700 font-medium">
             Loading your dashboard...
           </p>
         </div>
@@ -129,7 +129,7 @@ const AdminDashboard = () => {
           <p className="text-gray-600 mb-4">{error}</p>
           <button
             onClick={fetchData}
-            className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-pink-700 transition"
+            className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700 transition"
           >
             Try Again
           </button>
@@ -140,12 +140,12 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <div className="bg-pink-50 font-serif min-h-screen">
+      <div className="bg-teal-50 font-serif min-h-screen">
         <Toaster position="top-center" />
         <header className="bg-white shadow-md py-6 px-4">
           <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center">
-            <h1 className="text-3xl font-bold text-pink-700">Town Trouble</h1>
-            <h1 className="text-3xl font-bold text-pink-700">
+            <h1 className="text-3xl font-bold text-teal-700">Town Trouble</h1>
+            <h1 className="text-3xl font-bold text-teal-700">
               Admin Dashboard
             </h1>
           </div>
@@ -164,7 +164,7 @@ const AdminDashboard = () => {
                     icon={Users}
                     title="Total Customers"
                     count={customers.length}
-                    color="blue"
+                    color="teal"
                   />
                 </div>
                 <div
@@ -190,7 +190,7 @@ const AdminDashboard = () => {
                   />
                 </div>
               </div>
-              <hr className="bg-pink-800 h-1" />
+              <hr className="bg-teal-800 h-1" />
               <div className="mt-16 grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-white rounded-lg shadow-md p-6">
                   <h3 className="text-lg font-medium text-gray-900 mb-4">
@@ -208,7 +208,7 @@ const AdminDashboard = () => {
                               status === "Resolved"
                                 ? "bg-green-500"
                                 : status === "In Progress"
-                                ? "bg-blue-500"
+                                ? "bg-teal-500"
                                 : status === "Pending"
                                 ? "bg-yellow-500"
                                 : "bg-red-500"
@@ -239,7 +239,7 @@ const AdminDashboard = () => {
                             issue.action === "Resolved"
                               ? "bg-green-500"
                               : issue.action === "In Progress"
-                              ? "bg-blue-500"
+                              ? "bg-teal-500"
                               : issue.action === "Pending"
                               ? "bg-yellow-500"
                               : "bg-red-500"
@@ -261,7 +261,7 @@ const AdminDashboard = () => {
           {activeView !== "dashboard" && (
             <button
               onClick={handleBackToDashboard}
-              className="mb-6 flex items-center text-pink-600 hover:text-pink-800 transition"
+              className="mb-6 flex items-center text-teal-600 hover:text-teal-800 transition"
             >
               <ChevronLeft className="h-5 w-5 mr-1" />
               Back to Dashboard
@@ -280,7 +280,7 @@ const AdminDashboard = () => {
                     All registered customers and their details
                   </p>
                 </div>
-                <div className="bg-blue-100 text-blue-800 p-2 rounded-full flex items-center">
+                <div className="bg-teal-100 text-teal-800 p-2 rounded-full flex items-center">
                   <Users size={20} className="mr-2" />
                   <span className="font-semibold">{customers.length}</span>
                 </div>
@@ -373,7 +373,7 @@ const AdminDashboard = () => {
                     <select
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
-                      className="pl-8 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-pink-500 appearance-none"
+                      className="pl-8 pr-4 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 appearance-none"
                     >
                       <option value="All">All Statuses</option>
                       {statusOptions.map((option) => (
@@ -455,7 +455,7 @@ const AdminDashboard = () => {
                               issue.action === "Resolved"
                                 ? "bg-green-100 text-green-800"
                                 : issue.action === "In Progress"
-                                ? "bg-blue-100 text-blue-800"
+                                ? "bg-teal-100 text-teal-800"
                                 : issue.action === "Pending"
                                 ? "bg-yellow-100 text-yellow-800"
                                 : "bg-red-100 text-red-800"
@@ -470,7 +470,7 @@ const AdminDashboard = () => {
                             onChange={(e) =>
                               handleStatusChange(issue._id, e.target.value)
                             }
-                            className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-pink-500 focus:border-pink-500 sm:text-sm"
+                            className="block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                           >
                             {statusOptions.map((option) => (
                               <option key={option} value={option}>
@@ -586,7 +586,7 @@ const AdminDashboard = () => {
           )}
         </main>
       </div>
-      <footer className="py-8 bg-pink-800 text-white">
+      <footer className="py-8 bg-teal-800 text-white">
         <div className="container mx-auto px-4 text-center">
           <h4 className="text-xl font-bold mb-4">Town Trouble</h4>
           <p>Making communities better, one report at a time.</p>
