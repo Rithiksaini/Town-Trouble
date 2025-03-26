@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowRight, MapPin, CheckCircle } from "lucide-react";
+import { ArrowRight, MapPin, CheckCircle, Plus } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const HeroSection = () => {
@@ -37,11 +37,11 @@ const HeroSection = () => {
             <div className="flex flex-col items-center sm:justify-center justify-center sm:flex-row gap-4">
               <button
                 onClick={report}
-                className="bg-teal-600 hover:bg-teal-700 text-white px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl flex items-center justify-center gap-2 lg:w-75 md:w-75 w-52 sm:w-auto"
+                className="bg-teal-600 hover:bg-white border-2 hover:border-teal-500 hover:text-teal-600 text-white px-8 py-4 rounded-lg font-medium transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl flex items-center justify-center gap-2 lg:w-75 md:w-75 w-52 sm:w-auto"
               >
                 <Link>
                   Report New Issue
-                  <ArrowRight size={18} className="ms-14" />
+                  <Plus size={18} className="hover:animate-spin ms-14" />
                 </Link>
               </button>
 

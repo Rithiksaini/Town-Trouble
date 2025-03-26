@@ -8,12 +8,15 @@ import {
   Clock,
   CheckCircle,
   XCircle,
+  Send,
+  Plus,
   AlertCircle,
   RefreshCw,
 } from "lucide-react";
 
 function AllIssues() {
   const [issues, setIssues] = useState([]);
+   const [isHovered, setIsHovered] = useState(false);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
@@ -388,7 +391,7 @@ function AllIssues() {
           )}
         </div>
 
-        {/* Add New Issue Button - Fixed at Bottom Right on Mobile */}
+      
         <div className="fixed bottom-6 right-6 md:hidden">
           <Link
             to="/issueform"
@@ -397,6 +400,74 @@ function AllIssues() {
           >
             <span className="text-2xl font-bold">+</span>
           </Link>
+        </div>
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+         
+          <div
+            className={`bg-white text-teal-700 font-medium rounded-lg shadow-lg px-4 py-2 mb-3 transform transition-all duration-300 flex items-center ${
+              isHovered
+                ? "opacity-100 translate-y-0"
+                : "opacity-0 translate-y-2 pointer-events-none"
+            }`}
+          >
+            <span>Report an Issue</span>
+          </div>
+
+          {/* Main button */}
+          <Link
+            to="/issueform"
+            className="group relative flex items-center justify-center overflow-hidden"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            {/* Base circle */}
+            <div className="w-14 h-14 rounded-full bg-teal-600 shadow-lg flex items-center justify-center transition-all duration-300 group-hover:bg-teal-700">
+              {/* Icon container with animation */}
+              <div className="relative flex items-center justify-center w-full h-full">
+                {/* Initial plus icon that spins and fades out on hover */}
+                <Plus
+                  size={24}
+                  className="text-white absolute transition-all duration-300 group-hover:opacity-0 group-hover:rotate-90"
+                />
+
+                {/* Alert icon that fades in on hover */}
+                <AlertCircle
+                  size={22}
+                  className="text-white absolute opacity-0 scale-75 transition-all duration-300 group-hover:opacity-100 group-hover:scale-100"
+                />
+              </div>
+            </div>
+
+            {/* Pulsing effect */}
+            <div className="absolute w-14 h-14 rounded-full bg-teal-400 opacity-30 animate-ping"></div>
+          </Link>
+
+          {/* Mobile floating action button with slide-up menu (visible on small screens) */}
+          <div className="md:hidden">
+            <div
+              className={`fixed right-6 bottom-24 transition-all duration-300 flex flex-col gap-3 items-end ${
+                isHovered
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-8 pointer-events-none"
+              }`}
+            >
+              <Link
+                to="/issueform"
+                className="bg-teal-500 text-white rounded-full px-4 py-2 flex items-center shadow-md"
+              >
+                <span className="mr-2">New Report</span>
+                <Send size={16} />
+              </Link>
+
+              <Link
+                to="/myissues"
+                className="bg-white text-teal-700 rounded-full px-4 py-2 flex items-center shadow-md"
+              >
+                <span className="mr-2">My Reports</span>
+                <AlertCircle size={16} />
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>
