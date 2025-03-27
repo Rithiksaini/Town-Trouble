@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -9,8 +9,8 @@ import {
   Lock,
   MoveRight,
   Loader2,
-  MapPin,
-  Building,
+  CheckCircle2,
+  XCircle,
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -19,31 +19,71 @@ export default function Registration() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState({
+    length: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    specialChar: false,
+  });
 
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onChange", // Validate on every change
+  });
 
   const navigate = useNavigate();
   const password = watch("password", "");
 
+  // Password strength validation
+  useEffect(() => {
+    if (password) {
+      setPasswordStrength({
+        length: password.length >= 8,
+        uppercase: /[A-Z]/.test(password),
+        lowercase: /[a-z]/.test(password),
+        number: /\d/.test(password),
+        specialChar: /[@$!%*?&]/.test(password),
+      });
+    } else {
+      setPasswordStrength({
+        length: false,
+        uppercase: false,
+        lowercase: false,
+        number: false,
+        specialChar: false,
+      });
+    }
+  }, [password]);
+
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
+      // Remove confirmPassword before sending to backend
+      const { confirmPassword, ...submitData } = data;
+
       const res = await axios.post(
         "http://localhost:8000/customer/registration",
-        data
+        submitData
       );
+
       if (res.data?.success) {
+        // Attempt login after successful registration
         try {
           const loginRes = await axios.post(
             "http://localhost:8000/user/login",
-            data
+            {
+              email: submitData.email,
+              password: submitData.password,
+            }
           );
+
           if (loginRes.data?.success) {
+            // Use toast for user feedback
             toast.promise(new Promise((resolve) => setTimeout(resolve, 2000)), {
               loading: "Creating your account...",
               success: "Account created successfully!",
@@ -58,6 +98,7 @@ export default function Registration() {
             sessionStorage.setItem("userId", loginRes.data.data._id);
             localStorage.setItem("token", loginRes.data.token);
 
+            // Navigate after delay
             setTimeout(() => {
               navigate(
                 loginRes.data.data.userType === 1
@@ -66,24 +107,18 @@ export default function Registration() {
               );
             }, 2000);
           } else {
-            setIsSubmitting(false);
-            toast.error(
-              loginRes.data.message || "Login failed. Please try again."
-            );
+            throw new Error(loginRes.data.message || "Login failed");
           }
-        } catch (error) {
-          setIsSubmitting(false);
-          toast.error("Authentication error: " + error.message);
+        } catch (loginError) {
+          toast.error(loginError.message);
         }
       } else {
-        setIsSubmitting(false);
-        toast.error(
-          res.data.message || "Registration failed. Please try again."
-        );
+        toast.error(res.data.message || "Registration failed");
       }
     } catch (error) {
+      toast.error(error.response?.data?.message || "Server error occurred");
+    } finally {
       setIsSubmitting(false);
-      toast.error("Server error: " + error.message);
     }
   };
 
@@ -92,16 +127,17 @@ export default function Registration() {
       <Toaster position="top-right" />
 
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg overflow-hidden">
-        <div className="bg-gradient-to-r from-teal-500 to-teal-700 py-8 px-6 text-center">
+        {/* Header */}
+        <div className="bg-gradient-to-r from-teal-500 to-teal-700 py-6 px-6 text-center">
           <h2 className="text-white text-2xl font-bold">Create Your Account</h2>
           <p className="text-teal-100 text-sm mt-2 opacity-80">
-            Join our platform in just a few steps
+            Join our platform with a secure account
           </p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="px-8 py-8 space-y-5">
+        <form onSubmit={handleSubmit(onSubmit)} className="px-6 py-6 space-y-4">
           {/* Personal Information Section */}
-          <div className="mb-2">
+          <div>
             <h3 className="text-slate-700 font-medium mb-4">
               Personal Information
             </h3>
@@ -118,8 +154,12 @@ export default function Registration() {
                   {...register("name", {
                     required: "Username is required",
                     minLength: {
-                      value: 8,
-                      message: "Minimum 8 characters required",
+                      value: 3,
+                      message: "Minimum 3 characters required",
+                    },
+                    maxLength: {
+                      value: 50,
+                      message: "Maximum 50 characters allowed",
                     },
                     pattern: {
                       value: /^[A-Za-z\s]+$/,
@@ -167,10 +207,10 @@ export default function Registration() {
                 </p>
               )}
             </div>
-          </div> 
+          </div>
 
           {/* Security Section */}
-          <div className="mb-2">
+          <div>
             <h3 className="text-slate-700 font-medium mb-4">
               Account Security
             </h3>
@@ -186,15 +226,14 @@ export default function Registration() {
                   type={showPassword ? "text" : "password"}
                   {...register("password", {
                     required: "Password is required",
-                    minLength: {
-                      value: 8,
-                      message: "Minimum 8 characters required",
-                    },
-                    pattern: {
-                      value:
-                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-                      message:
-                        "Password must include: uppercase, lowercase, number, and special character",
+                    validate: () => {
+                      const strength = Object.values(passwordStrength).filter(
+                        (v) => v
+                      ).length;
+                      return (
+                        strength >= 4 ||
+                        "Password does not meet complexity requirements"
+                      );
                     },
                   })}
                   placeholder="Password"
@@ -209,6 +248,49 @@ export default function Registration() {
                 >
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
+              </div>
+              {/* Password Strength Indicators */}
+              <div className="mt-2 grid grid-cols-2 gap-2 text-xs">
+                <div className="flex items-center">
+                  {passwordStrength.length ? (
+                    <CheckCircle2 size={12} className="text-green-500 mr-1" />
+                  ) : (
+                    <XCircle size={12} className="text-red-500 mr-1" />
+                  )}
+                  8+ characters
+                </div>
+                <div className="flex items-center">
+                  {passwordStrength.uppercase ? (
+                    <CheckCircle2 size={12} className="text-green-500 mr-1" />
+                  ) : (
+                    <XCircle size={12} className="text-red-500 mr-1" />
+                  )}
+                  Uppercase letter
+                </div>
+                <div className="flex items-center">
+                  {passwordStrength.lowercase ? (
+                    <CheckCircle2 size={12} className="text-green-500 mr-1" />
+                  ) : (
+                    <XCircle size={12} className="text-red-500 mr-1" />
+                  )}
+                  Lowercase letter
+                </div>
+                <div className="flex items-center">
+                  {passwordStrength.number ? (
+                    <CheckCircle2 size={12} className="text-green-500 mr-1" />
+                  ) : (
+                    <XCircle size={12} className="text-red-500 mr-1" />
+                  )}
+                  Number
+                </div>
+                <div className="flex items-center col-span-2">
+                  {passwordStrength.specialChar ? (
+                    <CheckCircle2 size={12} className="text-green-500 mr-1" />
+                  ) : (
+                    <XCircle size={12} className="text-red-500 mr-1" />
+                  )}
+                  Special character
+                </div>
               </div>
               {errors.password && (
                 <p className="text-red-500 text-xs mt-1.5">
@@ -258,14 +340,12 @@ export default function Registration() {
             </div>
           </div>
 
-        
-
           {/* Submit Button */}
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || !isValid}
             className={`w-full bg-teal-600 hover:bg-teal-700 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center gap-2 transition ${
-              isSubmitting ? "opacity-75 cursor-not-allowed" : ""
+              isSubmitting || !isValid ? "opacity-75 cursor-not-allowed" : ""
             }`}
           >
             {isSubmitting ? (

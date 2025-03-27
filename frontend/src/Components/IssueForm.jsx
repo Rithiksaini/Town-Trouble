@@ -308,7 +308,7 @@ export default function IssueForm() {
           <div className="flex gap-4">
             <button
               type="button"
-              onClick={() => nav("/profile")}
+              onClick={() => nav(-1)}
               className="w-1/3 bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium py-3 px-4 rounded-lg flex items-center justify-center transition duration-200"
             >
               Cancel

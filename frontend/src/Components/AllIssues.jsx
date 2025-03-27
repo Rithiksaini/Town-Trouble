@@ -422,9 +422,9 @@ function AllIssues() {
           >
             {/* Base circle */}
             <div className="w-14 h-14 rounded-full bg-teal-600 shadow-lg flex items-center justify-center transition-all duration-300 group-hover:bg-teal-700">
-              {/* Icon container with animation */}
+            
               <div className="relative flex items-center justify-center w-full h-full">
-                {/* Initial plus icon that spins and fades out on hover */}
+               
                 <Plus
                   size={24}
                   className="text-white absolute transition-all duration-300 group-hover:opacity-0 group-hover:rotate-90"
@@ -459,13 +459,7 @@ function AllIssues() {
                 <Send size={16} />
               </Link>
 
-              <Link
-                to="/myissues"
-                className="bg-white text-teal-700 rounded-full px-4 py-2 flex items-center shadow-md"
-              >
-                <span className="mr-2">My Reports</span>
-                <AlertCircle size={16} />
-              </Link>
+              
             </div>
           </div>
         </div>

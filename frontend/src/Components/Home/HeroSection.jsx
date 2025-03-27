@@ -1,10 +1,16 @@
 import React from "react";
 import { ArrowRight, MapPin, CheckCircle, Plus } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
 
 const HeroSection = () => {
+  let token = sessionStorage.getItem("token")
+  const nav = useNavigate();
   const report = () => {
-    // Your report function implementation
+    if (!token) {
+      nav("/login");
+    } else {
+      nav("/issueform");
+    }
   };
 
   return (

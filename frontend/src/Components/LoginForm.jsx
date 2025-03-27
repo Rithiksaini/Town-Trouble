@@ -177,21 +177,7 @@ export default function LoginForm() {
             )}
           </div>
 
-          <div className="flex justify-between items-center text-sm">
-            <label className="flex items-center text-slate-600 cursor-pointer">
-              <input
-                type="checkbox"
-                className="rounded text-teal-500 mr-2 focus:ring-teal-500"
-              />
-              Remember me
-            </label>
-            <a
-              href="/forgot-password"
-              className="text-teal-600 hover:text-teal-800 font-medium transition-colors duration-200"
-            >
-              Forgot password?
-            </a>
-          </div>
+         <hr />
 
           <div className="pt-2">
             <button
@@ -215,40 +201,7 @@ export default function LoginForm() {
             </button>
           </div>
 
-          <div className="relative flex py-2 items-center">
-            <div className="flex-grow border-t border-slate-200"></div>
-            <span className="flex-shrink mx-3 text-xs text-slate-400">OR</span>
-            <div className="flex-grow border-t border-slate-200"></div>
-          </div>
-
-          <div className="flex gap-3">
-            <button
-              type="button"
-              className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium py-2.5 rounded-lg flex items-center justify-center transition duration-200"
-            >
-              <svg
-                className="w-5 h-5 mr-2"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032 s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2 C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" />
-              </svg>
-              Google
-            </button>
-            <button
-              type="button"
-              className="flex-1 bg-slate-800 hover:bg-slate-900 text-white font-medium py-2.5 rounded-lg flex items-center justify-center transition duration-200"
-            >
-              <svg
-                className="w-5 h-5 mr-2"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 2C6.477 2 2 6.477 2 12C2 16.991 5.552 21.128 10.225 21.88V14.709H7.797V12H10.225V9.789C10.225 7.347 11.594 6.031 13.825 6.031C14.896 6.031 16.029 6.203 16.029 6.203V8.562H14.799C13.586 8.562 13.146 9.333 13.146 10.125V12H15.914L15.405 14.709H13.146V21.88C17.818 21.129 21.37 16.99 21.37 12C21.37 6.477 16.893 2 12 2Z" />
-              </svg>
-              Facebook
-            </button>
-          </div>
+         
 
           <div className="text-center text-sm text-slate-600 pt-4">
             New to Town Trouble?{" "}

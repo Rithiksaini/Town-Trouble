@@ -286,6 +286,8 @@ export default function Profile() {
                                   ? "bg-green-100 text-green-800"
                                   : issue.action === "In Progress"
                                   ? "bg-yellow-100 text-yellow-800"
+                                  : issue.action === "Rejected"
+                                  ? "bg-red-100 text-red-800"
                                   : "bg-teal-100 text-teal-800"
                               }`}
                             >
