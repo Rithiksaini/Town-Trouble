@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import ApiServices from "../Services/Apiservices";
 
 export default function Registration() {
   const [showPassword, setShowPassword] = useState(false);
@@ -60,67 +61,59 @@ export default function Registration() {
     }
   }, [password]);
 
-  const onSubmit = async (data) => {
-    setIsSubmitting(true);
-    try {
-      // Remove confirmPassword before sending to backend
-      const { confirmPassword, ...submitData } = data;
+ const onSubmit = async (data) => {
+   setIsSubmitting(true);
+   try {
+     // Remove confirmPassword before sending to backend
+     const { confirmPassword, ...submitData } = data;
 
-      const res = await axios.post(
-        "http://localhost:8000/customer/registration",
-        submitData
-      );
+     // Correct API call syntax
+     const res = await ApiServices.register(submitData);
 
-      if (res.data?.success) {
-        // Attempt login after successful registration
-        try {
-          const loginRes = await axios.post(
-            "http://localhost:8000/user/login",
-            {
-              email: submitData.email,
-              password: submitData.password,
-            }
-          );
+     if (res.data?.success) {
+       // Attempt login after successful registration
+       try {
+         const loginRes = await ApiServices.login({
+           email: submitData.email,
+           password: submitData.password,
+         });
 
-          if (loginRes.data?.success) {
-            // Use toast for user feedback
-            toast.promise(new Promise((resolve) => setTimeout(resolve, 2000)), {
-              loading: "Creating your account...",
-              success: "Account created successfully!",
-              error: "Something went wrong. Please try again.",
-            });
+         if (loginRes.data?.success) {
+           // Use toast for user feedback
+           toast.success("Account created successfully!");
 
-            // Store user data
-            sessionStorage.setItem(
-              "userData",
-              JSON.stringify(loginRes.data.data)
-            );
-            sessionStorage.setItem("userId", loginRes.data.data._id);
-            localStorage.setItem("token", loginRes.data.token);
+           // Store user data
+           sessionStorage.setItem(
+             "userData",
+             JSON.stringify(loginRes.data.data)
+           );
+           sessionStorage.setItem("userId", loginRes.data.data._id);
+           localStorage.setItem("token", loginRes.data.token);
 
-            // Navigate after delay
-            setTimeout(() => {
-              navigate(
-                loginRes.data.data.userType === 1
-                  ? "/admin/dashboard"
-                  : "/issues"
-              );
-            }, 2000);
-          } else {
-            throw new Error(loginRes.data.message || "Login failed");
-          }
-        } catch (loginError) {
-          toast.error(loginError.message);
-        }
-      } else {
-        toast.error(res.data.message || "Registration failed");
-      }
-    } catch (error) {
-      toast.error(error.response?.data?.message || "Server error occurred");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+           // Navigate after delay
+           setTimeout(() => {
+             navigate(
+               loginRes.data.data.userType === 1
+                 ? "/admin/dashboard"
+                 : "/issues"
+             );
+           }, 2000);
+         } else {
+           throw new Error(loginRes.data.message || "Login failed");
+         }
+       } catch (loginError) {
+         toast.error(loginError.message);
+       }
+     } else {
+       toast.error(res.data.message || "Registration failed");
+     }
+   } catch (error) {
+     toast.error(error.response?.data?.message || "Server error occurred");
+   } finally {
+     setIsSubmitting(false);
+   }
+ };
+
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-r from-teal-100 to-slate-100 flex items-center justify-center p-4 font-sans">

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import ApiServices from "../Services/Apiservices";
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +28,7 @@ export default function LoginForm() {
   const onSubmit = async (data) => {
     try {
       setIsLoggingIn(true);
-      const res = await axios.post("http://localhost:8000/user/login", data);
+      const res = await ApiServices.login(data)
 
       toast.promise(
         new Promise((resolve, reject) => {

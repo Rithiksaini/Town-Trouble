@@ -10,9 +10,11 @@ import {
   XCircle,
   AlertCircle,
   Star,
-} from "lucide-react";
+} from "lucide-react"; 
+import Apiservices from "../Services/Apiservices";
 import HeroSection from "./Home/HeroSection";
-
+import Aos from "aos";
+import "aos/dist/aos.css";
 export default function Home() {
   // State to store issues and loading status
   const [issues, setIssues] = useState([]);
@@ -65,10 +67,7 @@ export default function Home() {
   const fetchIssues = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(
-        "http://localhost:8000/customer/issue/all",
-        { status: true }
-      );
+      const response = await Apiservices.allIssue({ status: true });
       if (response.data.status) {
         setIssues(response.data.data);
       } else {
@@ -176,13 +175,21 @@ export default function Home() {
       nav("/issueform");
     }
   };
+   useEffect(() => {
+     Aos.init({ duration: 1000 });
+   }, []);
   return (
     <div className="min-h-screen font-serif bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Hero Section with Simple Animation */}
 
       <HeroSection />
       {/* How Town Trouble Works Section with Active Step Highlighting */}
-      <div className="py-12 bg-white">
+      <div
+        data-aos="fade-up"
+        data-aos-duration="800"
+        data-aos-delay="200"
+        className="py-12 bg-white"
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-teal-800 mb-4">
@@ -234,8 +241,12 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Issues Section with Fade-in Animation */}
-      <div className="py-12">
+      <div
+        data-aos="fade-up"
+        data-aos-duration="800"
+        data-aos-delay="300"
+        className="py-12"
+      >
         <div className="container mx-auto px-4">
           <h3 className="text-2xl text-teal-700  font-bold text-center mb-8">
             Recent Issues
@@ -376,7 +387,12 @@ export default function Home() {
       </div>
 
       {/* Success Stories Section */}
-      <div className="py-12 bg-white">
+      <div
+        data-aos="fade-up"
+        data-aos-duration="800"
+        data-aos-delay="400"
+        className="py-12 bg-white"
+      >
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-teal-800 mb-4">

@@ -16,11 +16,15 @@ import {
   EyeOff,
   X,
 } from "lucide-react";
+import Aos from "aos";
+import "aos/dist/aos.css";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import Password from "./Password";
+import Apiservices from "../Services/Apiservices";
 
 export default function Profile() {
+  
   const [user, setUser] = useState(null);
   const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
   const [userIssue, setUserIssue] = useState([]);
@@ -29,6 +33,13 @@ export default function Profile() {
   const [change, setChange] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    Aos.init({
+      duration: 800,
+      once: true,
+      offset: 100,
+    });
+  }, []);
   useEffect(() => {
     const userId = sessionStorage.getItem("userId");
 
@@ -47,11 +58,7 @@ export default function Profile() {
         }
 
         // Fetch user issues
-        const response = await axios.post(
-          "http://localhost:8000/customer/issue/all",
-          { userId }
-        );
-
+        const response = await Apiservices.allIssue({ userId });
         if (response.data.success === true) {
           setUserIssue(response.data.data);
         } else {
@@ -169,7 +176,11 @@ export default function Profile() {
 
         <div className="max-w-4xl mx-auto">
           {/* Profile Card */}
-          <div className="bg-white rounded-xl shadow-xl overflow-hidden transition-transform hover:shadow-2xl">
+          <div
+            data-aos="fade-up"
+            data-aos-duration="800"
+            className="bg-white rounded-xl shadow-xl overflow-hidden transition-transform hover:shadow-2xl"
+          >
             <div className="bg-gradient-to-r from-teal-500 to-teal-600 px-4 sm:px-6 py-6 sm:py-8 text-white">
               <div className="flex flex-col sm:flex-row items-center gap-4">
                 <div className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full bg-white p-1 shadow-lg flex items-center justify-center text-teal-600 text-2xl font-bold transition-transform hover:scale-105">
@@ -191,7 +202,11 @@ export default function Profile() {
               </div>
             </div>
 
-            <div className="p-4 sm:p-6">
+            <div
+              data-aos="fade-up"
+              data-aos-duration="800"
+              className="p-4 sm:p-6"
+            >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <div className="bg-teal-50 p-4 rounded-lg shadow transition-all duration-300 hover:shadow-md hover:bg-teal-100">
                   <div className="flex items-center mb-2">
@@ -232,7 +247,11 @@ export default function Profile() {
           </div>
 
           {/* Reports Section */}
-          <div className="mt-6 bg-white rounded-xl shadow-xl p-4 sm:p-6">
+          <div
+            data-aos="fade-up"
+            data-aos-duration="800"
+            className="mt-6 bg-white rounded-xl shadow-xl p-4 sm:p-6"
+          >
             <div className="flex items-center justify-between border-b border-teal-200 pb-2 mb-4">
               <h4 className="text-lg sm:text-xl font-semibold text-gray-800">
                 Your Reports

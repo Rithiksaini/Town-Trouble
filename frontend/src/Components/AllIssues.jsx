@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   MapPin,
@@ -13,6 +13,7 @@ import {
   AlertCircle,
   RefreshCw,
 } from "lucide-react";
+import ApiServices from "../Services/Apiservices";
 
 function AllIssues() {
   const [issues, setIssues] = useState([]);
@@ -23,34 +24,49 @@ function AllIssues() {
 
   useEffect(() => {
     fetchIssues();
+    
   }, []);
-
-  // Function to get issues from server
-  const fetchIssues = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.post(
-        "http://localhost:8000/customer/issue/all",
-        { status: true }
-      );
-      if (response.data.status) {
-        setIssues(response.data.data);
-      } else {
-        h;
-        showNotification(response.data.message, "error");
-      }
-    } catch (err) {
-      console.error(err);
-      showNotification(
-        "Failed to fetch issues. Please try again later.",
-        "error"
-      );
-    } finally {
-      setLoading(false);
+  let token = sessionStorage.getItem("token")
+    const nav = useNavigate();
+  const report = () => {
+    if (!token) {
+      nav("/login");
+    } else {
+      nav("/issueform");
     }
   };
 
-  const showNotification = (message, type = "info") => {
+  // Function to get issues from server
+ const fetchIssues = async () => {
+   setLoading(true);
+   try {
+
+     if (!ApiServices.allIssue) {
+       throw new Error("allIssues function is missing in ApiServices");
+     }
+
+     const response = await ApiServices.allIssue({ status: true });
+
+     if (response.data?.status) {
+       setIssues(response.data.data);
+     } else {
+       showNotification(
+         response.data?.message || "Failed to fetch issues.",
+         "error"
+       );
+     }
+   } catch (err) {
+     console.error("Error fetching issues:", err);
+     showNotification(
+       "Failed to fetch issues. Please try again later.",
+       "error"
+     );
+   } finally {
+     setLoading(false);
+   }
+ };
+
+ const showNotification = (message, type = "info") => {
     alert(message);
   };
 
@@ -377,12 +393,15 @@ function AllIssues() {
                           Clear Filters
                         </button>
                       )}
-                      <Link
-                        to="/issueform"
-                        className="px-4 py-2 bg-teal-600 text-white rounded-lg shadow-lg hover:bg-teal-700 transition-colors duration-300"
+                      <button
+                      onClick={report}
                       >
-                        Report Issue
-                      </Link>
+                        {" "}
+                        
+                        <Link className="px-4 py-2 bg-teal-600 text-white rounded-lg shadow-lg hover:bg-teal-700 transition-colors duration-300">
+                          Report Issue
+                        </Link>
+                      </button>
                     </div>
                   </div>
                 )}
@@ -391,7 +410,6 @@ function AllIssues() {
           )}
         </div>
 
-      
         <div className="fixed bottom-6 right-6 md:hidden">
           <Link
             to="/issueform"
@@ -402,7 +420,6 @@ function AllIssues() {
           </Link>
         </div>
         <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
-         
           <div
             className={`bg-white text-teal-700 font-medium rounded-lg shadow-lg px-4 py-2 mb-3 transform transition-all duration-300 flex items-center ${
               isHovered
@@ -422,9 +439,7 @@ function AllIssues() {
           >
             {/* Base circle */}
             <div className="w-14 h-14 rounded-full bg-teal-600 shadow-lg flex items-center justify-center transition-all duration-300 group-hover:bg-teal-700">
-            
               <div className="relative flex items-center justify-center w-full h-full">
-               
                 <Plus
                   size={24}
                   className="text-white absolute transition-all duration-300 group-hover:opacity-0 group-hover:rotate-90"
@@ -458,8 +473,6 @@ function AllIssues() {
                 <span className="mr-2">New Report</span>
                 <Send size={16} />
               </Link>
-
-              
             </div>
           </div>
         </div>

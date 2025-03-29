@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { ThumbsUp, Clock, MapPin, Tag, User } from "lucide-react";
 import ClipLoader from "react-spinners/ClipLoader";
 import moment from "moment/moment";
+import Apiservices from "../Services/Apiservices";
 
 export default function SingleIssue() {
   const [singleIssue, setSingleIssue] = useState(null);
@@ -19,10 +20,7 @@ export default function SingleIssue() {
     const fetchData = async () => {
       try {
         // Fetch issue details
-        const issueResponse = await axios.post(
-          "http://localhost:8000/customer/issue/single",
-          { _id: id }
-        );
+        const issueResponse = await Apiservices.singleIssue({_id:id})
         if (issueResponse.data.status) {
           setSingleIssue(issueResponse.data.data);
         } else {
@@ -30,20 +28,18 @@ export default function SingleIssue() {
         }
 
         // Fetch upvote count
-        const upvoteResponse = await axios.post(
-          "http://localhost:8000/customer/upvote/length",
-          { issueId: id }
-        );
+        const upvoteResponse = await Apiservices.upvoteLength({ issueId: id });
+        
         if (upvoteResponse.data.success === true) {
           setUpvotes(upvoteResponse.data);
         }
 
         // Check upvote status (only if customerId exists)
         if (customerId) {
-          const upvoteStatusResponse = await axios.post(
-            "http://localhost:8000/customer/upvote/single",
-            { customerId, issueId: id }
-          );
+          const upvoteStatusResponse = await Apiservices.upvoteSingle({
+            customerId,
+            issueId: id,
+          });
           if (upvoteStatusResponse.data.success === true) {
             setHasUpvoted(true);
           }
@@ -70,20 +66,17 @@ export default function SingleIssue() {
         return;
       }
 
-      const response = await axios.post(
-        "http://localhost:8000/customer/upvote/add",
-        { issueId: id, customerId: userId }
-      );
+      const response = await Apiservices.upvoteAdd({
+        issueId: id,
+        customerId: userId,
+      });
 
       if (response.data.status) {
         setHasUpvoted(true);
         toast.success(response.data.message);
 
         // Update upvote count
-        const updatedUpvotes = await axios.post(
-          "http://localhost:8000/customer/upvote/length",
-          { issueId: id }
-        );
+        const updatedUpvotes = await Apiservices.upvoteLength({ issueId: id });
         if (updatedUpvotes.data.success === true) {
           setUpvotes(updatedUpvotes.data);
         }

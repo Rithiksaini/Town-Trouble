@@ -152,6 +152,7 @@ const update = (req, res) => {
           if (!!req.body.title) result.title = req.body.title;
           if (!!req.body.description) result.description = req.body.description;
           if (!!req.body.location) result.location = req.body.location;
+          if (!!req.body.category) result.category = req.body.category;
           if (!!req.file) result.attachment =  req.file.filename;
 
           result

@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import {
   Mail,
   Phone,
@@ -11,14 +12,20 @@ import {
   Linkedin,
   Youtube,
 } from "lucide-react";
-
+import Aos from "aos";
+import "aos/dist/aos.css";
 export default function Contact() {
+     useEffect(() => {
+       Aos.init({ duration: 1000 });
+     }, []);
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 via-white to-teal-50 font-sans">
       {/* Hero Section */}
-      <div className="container mx-auto pt-20 pb-16 px-4">
+      <div
+        className="container mx-auto pt-20 pb-16 px-4"
+      >
         <div className="text-center max-w-3xl mx-auto">
-          <span className="inline-block px-4 py-2 bg-teal-100 text-teal-800 rounded-full text-sm font-medium mb-4">
+          <span className="inline-block px-2 mr-4  py-2 bg-teal-100 text-teal-800 rounded-full text-sm font-medium mb-4">
             Get In Touch
           </span>
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
@@ -35,7 +42,12 @@ export default function Contact() {
       </div>
 
       {/* Contact Cards */}
-      <div className="max-w-6xl mx-auto px-4 pb-16">
+      <div
+        data-aos="fade-up"
+        data-aos-duration="800"
+        data-aos-delay="200"
+        className="max-w-6xl mx-auto px-4 pb-16"
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Email card */}
           <div className="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
@@ -108,7 +120,12 @@ export default function Contact() {
       </div>
 
       {/* Social Media Section */}
-      <div className="bg-gradient-to-r from-teal-700 to-teal-600 py-20 px-4">
+      <div
+        data-aos="fade-up"
+        data-aos-duration="800"
+        data-aos-delay="200"
+        className="bg-gradient-to-r from-teal-700 to-teal-600 py-20 px-4"
+      >
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
             Connect With Us
@@ -154,7 +171,12 @@ export default function Contact() {
       </div>
 
       {/* Map Section */}
-      <div className="py-16 px-4 bg-gray-50">
+      <div
+        data-aos="fade-up"
+        data-aos-duration="800"
+        data-aos-delay="200"
+        className="py-16 px-4 bg-gray-50"
+      >
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-10">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">Find Us</h2>

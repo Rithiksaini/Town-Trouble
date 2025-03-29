@@ -1,103 +1,207 @@
-// In IssueForm.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { AlertCircle, FileUp, Send, FileText, Tag, MapPin } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
+import ApiServices from "../Services/Apiservices";
 
 export default function IssueForm() {
   const location = useLocation();
   const issueData = location.state?.issueData || {};
   const mode = location.state?.mode || "create";
+  const isUpdateMode = mode === "update";
 
   const [fileName, setFileName] = useState("");
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [fileChanged, setFileChanged] = useState(false);
+
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm();
+    watch,
+    getValues,
+  } = useForm({
+    defaultValues: {
+      title: "",
+      description: "",
+      category: "",
+      location: "",
+    },
+  });
 
-  const nav = useNavigate();
+  const navigate = useNavigate();
   const userId = sessionStorage.getItem("userId");
+  const watchedFile = watch("attachment");
+  const watchedCategory = watch("category");
 
-  // Prepopulate the form for update mode
+  // Prepopulate form for update mode
   useEffect(() => {
-    if (mode === "update" && issueData) {
+    if (isUpdateMode && issueData) {
+      // Populate all form fields from the issue data
       setValue("title", issueData.title || "");
       setValue("description", issueData.description || "");
-      setValue("category", issueData.category || "");
       setValue("location", issueData.location || "");
+
+      // Set category explicitly
+      if (issueData.category) {
+        setValue("category", issueData.category);
+      }
+
+      // Set attachment filename if it exists
       if (issueData.attachment) {
         setFileName(issueData.attachment);
       }
     }
-  }, [mode, issueData, setValue]);
+  }, [isUpdateMode, issueData, setValue]);
 
-  const onSubmit = (data) => {
-    const formData = new FormData();
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-    formData.append("category", data.category);
-    formData.append("location", data.location);
-
-    // Only append file if it exists and was selected
-    if (data.attachment && data.attachment[0]) {
-      formData.append("attachment", data.attachment[0]);
+  // Track file changes
+  useEffect(() => {
+    if (watchedFile && watchedFile[0]) {
+      setFileChanged(true);
     }
+  }, [watchedFile]);
 
-    formData.append("userId", userId);
+  // Form submission handler
+  const onSubmit = useCallback(
+    async (data) => {
+      try {
+        setIsProcessing(true);
 
-    // Different API calls based on mode
-    const apiUrl =
-      mode === "update"
-        ? "http://localhost:8000/customer/issue/update"
-        : "http://localhost:8000/customer/issue/add";
+        const formData = new FormData();
 
-    // If updating, add issue ID to formData
-    if (mode === "update") {
-      formData.append("_id", issueData._id);
-    }
+        // Append basic form fields
+        formData.append("title", data.title);
+        formData.append("description", data.description);
 
-    axios
-      .post(apiUrl, formData)
-      .then((res) => {
-        if (res.data.success === true) {
+        // Explicit category handling
+        const categoryValue = data.category || getValues("category");
+        formData.append("category", categoryValue);
+
+        formData.append("location", data.location);
+        formData.append("userId", userId);
+
+        // Handle file attachment
+        if (data.attachment && data.attachment[0]) {
+          // New file selected
+          formData.append("attachment", data.attachment[0]);
+        } else if (isUpdateMode && fileName && !fileChanged) {
+          // In update mode with existing attachment that hasn't changed
+          formData.append("existingAttachment", fileName);
+        }
+
+        // Add ID for update operations
+        if (isUpdateMode) {
+          formData.append("_id", issueData._id);
+        }
+
+        // Determine API endpoint based on mode
+        const endpoint = isUpdateMode
+          ? "http://localhost:8000/customer/issue/update"
+          : "http://localhost:8000/customer/issue/add";
+
+        // Try with a direct object for the update to ensure proper data format
+        let response;
+        if (isUpdateMode) {
+          // For update, try a JSON object approach as an alternative
+          const updateData = {
+            _id: issueData._id,
+            title: data.title,
+            description: data.description,
+            category: categoryValue,
+            location: data.location,
+            userId: userId,
+          };
+
+          if (data.attachment && data.attachment[0]) {
+            // If there's a new file, we still need to use FormData
+            response = await axios.post(endpoint, formData, {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            });
+          } else {
+            // If no new file, try a direct JSON approach
+            // Try to use the API Service if available
+            if (ApiServices && ApiServices.updateIssue) {
+              response = await ApiServices.updateIssue(updateData);
+            } else {
+              response = await axios.post(endpoint, updateData);
+            }
+          }
+        } else {
+          // For create, use the original FormData approach
+          response = await axios.post(endpoint, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+        }
+
+        if (response.data.success) {
           toast.success(
-            res.data.message ||
-              `Issue ${mode === "update" ? "updated" : "created"} successfully!`
+            isUpdateMode
+              ? "Issue updated successfully!"
+              : "Issue reported successfully!"
           );
 
-          // Reset form and navigate back to profile after a delay
+          // Reset form and navigate after successful submission
           setTimeout(() => {
             reset();
             setFileName("");
-            nav("/profile");
-          }, 2000);
+            navigate("/profile");
+          }, 1500);
         } else {
-          toast.error(res.data.message || "Something went wrong");
+          throw new Error(response.data.message || "Operation failed");
         }
-      })
-      .catch((err) => {
-        toast.error(err.message || "Failed to process request");
-      });
-  };
+      } catch (error) {
+        toast.error(
+          error.message || "Failed to process your request. Please try again."
+        );
+      } finally {
+        setIsProcessing(false);
+      }
+    },
+    [
+      isUpdateMode,
+      issueData,
+      userId,
+      reset,
+      navigate,
+      fileName,
+      fileChanged,
+      mode,
+      getValues,
+    ]
+  );
 
+  // File change handler
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      setFileName(e.target.files[0].name);
+      const file = e.target.files[0];
+      setFileName(file.name);
+      setFileChanged(true);
     }
   };
 
+  // Available issue categories
   const categories = [
-    { id: 1, name: "Maintainence" },
+    { id: 1, name: "Maintenance" },
     { id: 2, name: "Security Concern" },
     { id: 3, name: "Cleanliness" },
-    { id: 4, name: "Accessbility" },
+    { id: 4, name: "Accessibility" },
     { id: 5, name: "Others" },
   ];
+
+
+
+  // Cancel handler
+  const handleCancel = () => {
+    navigate(-1);
+  };
 
   return (
     <div className="bg-gradient-to-br from-teal-50 to-teal-100 min-h-screen flex items-center justify-center p-4">
@@ -105,7 +209,7 @@ export default function IssueForm() {
         <div className="flex items-center gap-2 mb-6">
           <AlertCircle className="text-red-500" size={24} />
           <h2 className="text-2xl font-semibold text-teal-800">
-            {mode === "update" ? "Update Issue" : "Report an Issue"}
+            {isUpdateMode ? "Update Issue" : "Report an Issue"}
           </h2>
         </div>
         <Toaster position="bottom-right" />
@@ -185,7 +289,7 @@ export default function IssueForm() {
             )}
           </div>
 
-          {/* Category Field */}
+          {/* Category Field - Modified with explicit onChange handler */}
           <div>
             <label className="text-sm font-medium text-teal-700 block mb-2">
               Category
@@ -196,6 +300,7 @@ export default function IssueForm() {
                   required: "Please select a category",
                 })}
                 className="w-full px-4 py-3 rounded-lg border border-teal-200 appearance-none focus:outline-none focus:ring-2 focus:ring-teal-500 transition duration-200"
+                value={watchedCategory || ""}
               >
                 <option value="">Select a category</option>
                 {categories.map((cat) => (
@@ -269,7 +374,7 @@ export default function IssueForm() {
                 onChange={handleFileChange}
                 {...register("attachment", {
                   required:
-                    mode === "create" && !fileName
+                    !isUpdateMode && !fileName
                       ? "Please select a file to attach"
                       : false,
                 })}
@@ -287,7 +392,7 @@ export default function IssueForm() {
                 {fileName ? (
                   <span className="text-teal-600 text-sm font-medium">
                     {fileName}
-                    {mode === "update" && " (Current file)"}
+                    {isUpdateMode && !fileChanged && " (Current file)"}
                   </span>
                 ) : (
                   <span className="text-teal-500 text-sm">
@@ -304,26 +409,61 @@ export default function IssueForm() {
             )}
           </div>
 
+          {/* Summary section showing filename, title, description and mode */}
+          <div className="bg-teal-50 p-4 rounded-lg border border-teal-200">
+            <h3 className="font-medium text-teal-700 mb-2">Issue Summary</h3>
+            <div className="grid grid-cols-2 gap-2 text-sm">
+              <div>
+                <p className="text-teal-600 font-medium">Mode:</p>
+                <p className="text-gray-700">
+                  {isUpdateMode ? "Update" : "Create"}
+                </p>
+              </div>
+              <div>
+                <p className="text-teal-600 font-medium">File Name:</p>
+                <p className="text-gray-700">
+                  {fileName || "No file attached"}
+                </p>
+              </div>
+              <div>
+                <p className="text-teal-600 font-medium">Title:</p>
+                <p className="text-gray-700">
+                  {watch("title") || "Not provided"}
+                </p>
+              </div>
+              <div>
+                <p className="text-teal-600 font-medium">Description:</p>
+                <p className="text-gray-700 truncate">
+                  {watch("description")
+                    ? watch("description").length > 30
+                      ? watch("description").substring(0, 30) + "..."
+                      : watch("description")
+                    : "Not provided"}
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Submit Button and Cancel Button */}
           <div className="flex gap-4">
             <button
               type="button"
-              onClick={() => nav(-1)}
+              onClick={handleCancel}
               className="w-1/3 bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium py-3 px-4 rounded-lg flex items-center justify-center transition duration-200"
             >
               Cancel
             </button>
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={isSubmitting || isProcessing}
               className="w-2/3 bg-teal-500 hover:bg-teal-700 text-white font-medium py-3 px-4 rounded-lg flex items-center justify-center transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-70"
             >
-              {isSubmitting ? (
+              {isSubmitting || isProcessing ? (
                 <>Processing...</>
               ) : (
                 <>
                   <Send size={18} className="mr-2" />
-                  {mode === "update" ? "Update Issue" : "Submit Issue"}
+                  {isUpdateMode ? "Update Issue" : "Submit Issue"}
                 </>
               )}
             </button>
